@@ -31,11 +31,11 @@ class VelocityBody:
         input_vrpn_pose = rospy.get_param('~vrpn_robot_pose_topic', '/vrpn_client_node/cyy/pose')
         rospy.loginfo("input vrpn topic is %s", input_vrpn_pose)
         
-        input_fused_pose = rospy.get_param('~fuesd_pose_topic', '/fused_path')
+        input_fused_pose = rospy.get_param('~fuesd_pose_topic', '/position_filter')
         rospy.loginfo("input fused topic is %s", input_fused_pose)
 
         rospy.Subscriber(input_vrpn_pose, PoseStamped, self.posCb)
-        rospy.Subscriber(input_fused_pose, Path, self.fusedposCb)
+        rospy.Subscriber(input_fused_pose, PoseStamped, self.fusedposCb)
         # rospy.Subscriber("/vrpn_client_node/fangguo1/pose", PoseStamped, self.posCb)
 
 
@@ -49,7 +49,7 @@ class VelocityBody:
         rospy.loginfo("outout post topic is %s", output_filtered_pose)
         self.pos_pub = rospy.Publisher("output_filtered_pose", PoseStamped, queue_size=10)
          #  vel       
-        output_filtered_vel = rospy.get_param("~robot_filtered_vel", "/outer_velocity")
+        output_filtered_vel = rospy.get_param("~robot_filtered_vel", "/x")
         rospy.loginfo("outout vel topic is %s", output_filtered_vel)
         self.vel_pub = rospy.Publisher(output_filtered_vel, TwistStamped, queue_size=10)  # topic
          #  acc       
@@ -82,25 +82,21 @@ class VelocityBody:
         
         self.last_velocity = PoseStamped()
         self.last_velocity_est = TwistStamped()
-        
-        self.last_velocity1 = PoseStamped()
-        self.last_velocity_est1 = TwistStamped()
 
     def posCb(self, msg):
         #self.current_position = msg
         self.c_p_z = msg.pose.position.z
         
     def fusedposCb(self, msg):
-        last_pose = msg.poses[-1]
-        self.c_p_x = last_pose.pose.position.x
-        self.c_p_y = last_pose.pose.position.y
+        self.c_p_x = msg.pose.position.x
+        self.c_p_y = msg.pose.position.y
 
 def main():
     rospy.init_node('vrpn_velocity_filter', anonymous=True)
     rospy.loginfo("vrpn vel filter begins working")
 
     cnt = VelocityBody()
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(150)
     outer_velocity = TwistStamped()
     outer_acc = TwistStamped()
     
