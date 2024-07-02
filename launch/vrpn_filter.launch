@@ -5,24 +5,25 @@
         <!-- it is pose infomration of robot and created by vrpn_client_ros pkg -->
         <param name="vrpn_robot_pose_topic" value="/vrpn_client_node/cyy/pose" />
         <param name="fuesd_pose_topic" value="/position_filter" />
-        <!-- output of vrpn_vel_filter_node topics -->
-        <param name="robot_filtered_post" value="/outer_position_filtered" />
-        <param name="robot_filtered_vel" value="/outer_velocity_filtered" />
-        <param name="robot_filtered_acc" value="/outer_acc_filtered" />
-        <param name="robot_filtered_error" value="/outer_error_filtered" />
+        <param name="lidar_height_topic" value="/lidar_position">
+            <!-- output of vrpn_vel_filter_node topics -->
+            <param name="robot_filtered_post" value="/outer_position_filtered" />
+            <param name="robot_filtered_vel" value="/outer_velocity_filtered" />
+            <param name="robot_filtered_acc" value="/outer_acc_filtered" />
+            <param name="robot_filtered_error" value="/outer_error_filtered" />
 
-    </node>
+        </node>
 
-    <node name="vrpn_filter_node_vrpn" pkg="vrpn_filter" type="vrpn_filter1.py" output="screen">
-        <!-- input of vrpn_vel_filter_node ros topics -->
-        <!-- it is pose infomration of robot and created by vrpn_client_ros pkg -->
-        <param name="vrpn_robot_pose_topic" value="/vrpn_client_node/cyy/pose" />
-        <!-- output of vrpn_vel_filter_node topics -->
-        <param name="robot_filtered_post" value="/outer_position" />
-        <param name="robot_filtered_vel" value="/outer_velocity" />
-        <param name="robot_filtered_acc" value="/outer_acc" />
-        <param name="robot_filtered_error" value="/outer_error" />
+        <node name="vrpn_filter_node_vrpn" pkg="vrpn_filter" type="vrpn_filter1.py" output="screen">
+            <!-- input of vrpn_vel_filter_node ros topics -->
+            <!-- it is pose infomration of robot and created by vrpn_client_ros pkg -->
+            <param name="vrpn_robot_pose_topic" value="/vrpn_client_node/cyy/pose" />
+            <!-- output of vrpn_vel_filter_node topics -->
+            <param name="robot_filtered_post" value="/outer_position" />
+            <param name="robot_filtered_vel" value="/outer_velocity" />
+            <param name="robot_filtered_acc" value="/outer_acc" />
+            <param name="robot_filtered_error" value="/outer_error" />
 
-    </node>
+        </node>
 
-</launch>
+    </launch>
